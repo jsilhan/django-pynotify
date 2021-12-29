@@ -9,8 +9,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.template import Context, Template
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy as _l
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _l
 
 from .config import settings
 from .exceptions import MissingContextVariableError
@@ -41,6 +41,8 @@ class BaseTemplate(BaseModel):
     text = models.TextField(null=True, blank=True, verbose_name=_l('text'))
     trigger_action = models.CharField(max_length=2500, null=True, blank=True,
                                       verbose_name=_l('trigger action'))
+    trigger_action_alternative = models.CharField(max_length=2500, null=True, blank=True,
+                                                  verbose_name=_l('trigger action alternative'))
 
     class Meta:
         abstract = True
@@ -83,7 +85,7 @@ class NotificationTemplate(BaseTemplate):
         trigger_action: Arbitrary action performed when user triggers (i.e. clicks/taps) the notification.
         admin_template: Reference to admin template that was used to create this notification template.
     """
-    TEMPLATE_FIELDS = ['title', 'text', 'trigger_action']
+    TEMPLATE_FIELDS = ['title', 'text', 'trigger_action', 'trigger_action_alternative']
 
     admin_template = models.ForeignKey(
         AdminNotificationTemplate,

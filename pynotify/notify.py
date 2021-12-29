@@ -3,8 +3,8 @@ from django.dispatch import Signal
 from .handlers import BaseHandler
 
 
-notify_signal = Signal(providing_args=['recipients', 'title', 'text', 'trigger_action', 'related_objects',
-                                       'extra_data', 'template_slug', 'dispatcher_classes'])
+notify_signal = Signal(providing_args=['recipients', 'title', 'text', 'trigger_action', 'trigger_action_alternative',
+                                       'related_objects', 'extra_data', 'template_slug', 'dispatcher_classes'])
 
 
 def notify(recipients, title=None, text=None, trigger_action=None, related_objects=None, extra_data=None,

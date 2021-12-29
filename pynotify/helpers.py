@@ -4,7 +4,7 @@ from pydoc import locate
 
 from bs4 import BeautifulSoup
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from .config import settings
 
