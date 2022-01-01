@@ -7,12 +7,12 @@ notify_signal = Signal(providing_args=['recipients', 'title', 'text', 'trigger_a
                                        'related_objects', 'extra_data', 'template_slug', 'dispatcher_classes'])
 
 
-def notify(recipients, title=None, text=None, trigger_action=None, related_objects=None, extra_data=None,
-           template_slug=None, dispatcher_classes=None):
+def notify(recipients, title=None, text=None, trigger_action=None, trigger_action_alternative=None,
+           related_objects=None, extra_data=None, template_slug=None, dispatcher_classes=None):
     """
     Helper method to create a notification. Simply sends the ``notify_signal``.
     """
-    if bool(template_slug) == (bool(title) | bool(text) | bool(trigger_action)):
+    if bool(template_slug) == (bool(title) | bool(text) | bool(trigger_action) | bool(trigger_action_alternative)):
         raise ValueError('Either provide template slug or template data, not both.')
 
     notify_signal.send(
@@ -21,6 +21,7 @@ def notify(recipients, title=None, text=None, trigger_action=None, related_objec
         title=title,
         text=text,
         trigger_action=trigger_action,
+        trigger_action_alternative=trigger_action_alternative,
         related_objects=related_objects,
         extra_data=extra_data,
         template_slug=template_slug,
@@ -36,7 +37,7 @@ class NotifyHandler(BaseHandler):
         return self.signal_kwargs['recipients']
 
     def get_template_data(self):
-        return {x: self.signal_kwargs[x] for x in {'title', 'text', 'trigger_action'}}
+        return {x: self.signal_kwargs[x] for x in {'title', 'text', 'trigger_action', 'trigger_action_alternative'}}
 
     def get_related_objects(self):
         return self.signal_kwargs['related_objects']

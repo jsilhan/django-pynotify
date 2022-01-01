@@ -138,6 +138,7 @@ class NotificationTestCase(TestCase):
             title='{{article}}',
             text='{{author}} created a new article named {{article}}.',
             trigger_action='{{article.get_absolute_url}}',
+            trigger_action_alternative='{{article.get_absolute_url}}?device=mobile',
         )
 
         self.notification = Notification.objects.create(
@@ -158,6 +159,7 @@ class NotificationTestCase(TestCase):
         self.assertEqual(self.notification.title, 'The Old Witch')
         self.assertEqual(self.notification.text, 'John created a new article named The Old Witch.')
         self.assertEqual(self.notification.trigger_action, '/articles/1/')
+        self.assertEqual(self.notification.trigger_action_alternative, '/articles/1/?device=mobile')
 
         self.author.username = 'James'
         self.author.save()
